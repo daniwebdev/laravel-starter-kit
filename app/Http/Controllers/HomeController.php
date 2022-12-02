@@ -32,4 +32,10 @@ class HomeController extends Controller
 
         return view('default.dashboard.index');
     }
+
+    public function profile() {
+
+
+        return view('default.profile');
+    }
 }
