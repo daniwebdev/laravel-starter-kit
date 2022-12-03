@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'login_timestamp',
     ];
 
     /**
@@ -41,5 +42,16 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'login_timestamp' => 'array',
     ];
+
+
+    static function boot() {
+        parent::boot();
+
+        self::creating(function($user) {
+            $user->uuid = str()->uuid();
+        });
+    }
+
 }

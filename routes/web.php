@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Core\RoleController;
+use App\Http\Controllers\Core\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +29,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('dashboard');
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
 
-Route::get('/simulasi', function() {
-    return view('simulasi_trade');
+
+Route::middleware('auth')->group(function() {
+
+    Route::get('/logout', [LoginController::class, 'logout']);
+
+    Route::any('user/ajax/{param}', [UserController::class, 'ajax'])->name('user.ajax');
+    Route::resource('user', UserController::class);
+
+    Route::any('role/ajax/{param}', [RoleController::class, 'ajax'])->name('role.ajax');
+    Route::resource('role', RoleController::class);
+
 });

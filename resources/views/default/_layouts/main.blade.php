@@ -13,7 +13,7 @@
 	<meta property="og:image" content="https://finlab.dexignlab.com/xhtml/social-image.png" />
 	<meta name="format-detection" content="telephone=no">
 	<!-- PAGE TITLE HERE -->
-	<title>FinLab Crypto Trading UI Admin</title>
+	<title>{{ $pageTitle ?? 'Page title' }}</title>
 	<!-- FAVICONS ICON -->
 	<link rel="shortcut icon" type="image/png" href="/admin-panel/images/favicon.png" />
 	<link href="/admin-panel/vendor/wow-master/css/libs/animate.css" rel="stylesheet">
@@ -947,7 +947,7 @@
 								<!-- ---student--- -->
 								<div class="d-flex align-items-center student">
 									<span class="dz-media">
-										<img src="./images/profile/small/pic2.jpg" alt="" width="50">
+										<img src="/admin-panel/images/profile/small/pic2.jpg" alt="" width="50">
 									</span>
 									<div class="user-info">
 										<h6 class="name"><a href="app-profile.html">Tony Soap</a></h6>
@@ -965,7 +965,7 @@
 								<!-- ---student--- -->
 								<div class="d-flex align-items-center student">
 									<span class="dz-media">
-										<img src="./images/profile/small/pic3.jpg" alt="" width="50">
+										<img src="/admin-panel/images/profile/small/pic3.jpg" alt="" width="50">
 									</span>
 									<div class="user-info">
 										<h6 class="name"><a href="app-profile.html">Karen Hope</a></h6>
@@ -983,7 +983,7 @@
 								<!-- ---student--- -->
 								<div class="d-flex align-items-center student">
 									<span class="dz-media">
-										<img src="./images/profile/small/pic4.jpg" alt="" width="50">
+										<img src="/admin-panel/images/profile/small/pic4.jpg" alt="" width="50">
 									</span>
 									<div class="user-info">
 										<h6 class="name"><a href="app-profile.html">Jordan Nico</a></h6>
@@ -1001,7 +1001,7 @@
 								<!-- ---student--- -->
 								<div class="d-flex align-items-center student">
 									<span class="dz-media">
-										<img src="./images/profile/small/pic5.jpg" alt="" width="50">
+										<img src="/admin-panel/images/profile/small/pic5.jpg" alt="" width="50">
 									</span>
 									<div class="user-info">
 										<h6 class="name"><a href="app-profile.html">Nadila Adja</a></h6>
@@ -1232,7 +1232,13 @@
             <!-- row -->
 			<div class="container-fluid">
 
-                @yield('content')
+                <div class="row" >
+                    <div class="col-12">
+                        <div id="content-body-yield">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
 
 
 				<!--**********************************
@@ -1342,26 +1348,15 @@
 
     @stack('foot')
 
+    <script src="/admin-panel/vendor/wow-master/dist/wow.min.js"></script>
+    <script src="/admin-panel/vendor/bootstrap-select-country/js/bootstrap-select-country.min.js"></script>
+    <script src="/admin-panel/vendor/bootstrap-datetimepicker/js/moment.js"></script>
+    <script src="/admin-panel/vendor/datepicker/js/bootstrap-datepicker.min.js"></script>
 
     <script src="/admin-panel/js/dlabnav-init.js"></script>
     <script src="/admin-panel/js/custom.min.js"></script>
     <script src="/admin-panel/js/demo.js"></script>
     <script src="/admin-panel/js/styleSwitcher.js"></script>
-	<script>
 
-	$(function () {
-        $("#datepicker").datepicker({
-            autoclose: true,
-            todayHighlight: true
-        }).datepicker('update', new Date());
-
-	});
-
-    $(document).ready(function(){
-        $(".booking-calender .fa.fa-clock-o").removeClass(this);
-        $(".booking-calender .fa.fa-clock-o").addClass('fa-clock');
-    });
-	$('.my-select').selectpicker();
-	</script>
 </body>
 </html>

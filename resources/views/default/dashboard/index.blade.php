@@ -3,11 +3,22 @@
 @push('foot')
 <!-- Dashboard 1 -->
 <script src="/admin-panel/js/dashboard/dashboard-1.js"></script>
-<script src="/admin-panel/vendor/wow-master/dist/wow.min.js"></script>
-<script src="/admin-panel/vendor/bootstrap-datetimepicker/js/moment.js"></script>
-<script src="/admin-panel/vendor/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="/admin-panel/vendor/bootstrap-select-country/js/bootstrap-select-country.min.js"></script>
+<script>
 
+	$(function () {
+        $("#datepicker").datepicker({
+            autoclose: true,
+            todayHighlight: true
+        }).datepicker('update', new Date());
+
+	});
+
+    $(document).ready(function(){
+        $(".booking-calender .fa.fa-clock-o").removeClass(this);
+        $(".booking-calender .fa.fa-clock-o").addClass('fa-clock');
+    });
+	$('.my-select').selectpicker();
+</script>
 @endpush
 
 @section('content')

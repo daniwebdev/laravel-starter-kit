@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -44,7 +45,14 @@ class LoginController extends Controller
     }
 
     public function authenticated() {
-
+        $user = Auth::user();
+        $user->login_timestamp = [
+            'login_timestamp' => [
+                'ts' => time(),
+                'datetime' => now()->format("Y-m-d H:i:s.z"),
+            ]
+        ];
+        $user->save();
 
         return redirect('dashboard');
     }

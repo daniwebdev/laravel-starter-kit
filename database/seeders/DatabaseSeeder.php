@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,11 +25,24 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        User::create([
+        $permissions = [
+            Permission::create(['name' => 'create user']),
+            Permission::create(['name' => 'update user']),
+            Permission::create(['name' => 'show user']),
+            Permission::create(['name' => 'delete user']),
+        ];
+
+        $superadmin_role = Role::create(['name' => 'Super Admin']);
+
+        $superadmin_role->syncPermissions($permissions);
+
+        $superadmin = User::create([
             "name" => "Super Admin",
             "email" => 'superadmin@mail.com',
             "email_verified_at" => now(),
             "password" => bcrypt('password'),
         ]);
+
+        $superadmin->assignRole($superadmin_role);
     }
 }

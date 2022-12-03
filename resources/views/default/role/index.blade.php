@@ -7,10 +7,10 @@
   <div class="col-12">
     <div class="card card-primary card-outline">
       <div class="card-header d-flex justify-cotent-between">
-        <h4 class="card-title">User Manager</h4>
+        <h4 class="card-title">Role Manager</h4>
 
         @can('create user')
-            <a href="{{route('user.create')}}" class="btn btn-primary btn-sm float-left">
+            <a href="{{route('role.create')}}" class="btn btn-primary btn-sm float-left">
                 <i class="fa fa-plus"></i> Add New
             </a>
         @endcan
@@ -22,10 +22,7 @@
                 <thead>
                     <tr>
                         <th class="bg-primary">Name</th>
-                        <th class="bg-primary">Email</th>
-                        <th class="bg-primary">Role</th>
-                        <th class="bg-primary">Status</th>
-                        <th class="bg-primary">Last In</th>
+                        <th class="bg-primary">Permissions</th>
                         <th class="bg-primary"></th>
                     </tr>
                 </thead>
@@ -61,48 +58,33 @@
 
             } ,
             ajax: {
-                url: '/user/ajax/datatables',
+                url: '/role/ajax/datatables',
             },
             "order": [[0, 'asc']],
             columns: [
                 {data: 'name'},
-                {data: 'email'},
-                {data: '_roles', render: (data) => {
-                    let roles  = JSON.parse(data);
-                    let badges = [];
+                {data: '_permissions', render: (data) => {
+                    var labels = [];
 
-                    roles.forEach(item => {
-                        badges.push(`<span class="badge badge-sm light badge-success">${item}</span>`);
-                    })
+                    for(let permission of data) {
+                        // let module = permission.name.split(' ')[1];
+                        // let action = permission.name.split(' ')[0];
 
-                    return badges.join('');
-                }},
-                {data: 'is_active', render: (data) => {
-                    if(data) {
-                        return `<span class="badge badge-sm light badge-success">
-                                    <i class="fa fa-circle text-success me-1"></i>
-                                    Active
-                                </span>`
+                        // if(labels[module] == undefined) {
+                        //     labels[module] = [];
+                        // }
 
-                    } else {
-                        return `<span class="badge badge-sm light badge-danger">
-                                    <i class="fa fa-circle text-success me-1"></i>
-                                    InActive
-                                </span>`
+                        labels.push(`<span class="badge badge-lg light badge-secondary me-2" >${permission.name}</span>`)
                     }
-                }},
-                {data: 'login_timestamp', render: (data) => {
-                    if(data.login_timestamp != undefined) {
-                        return moment.utc(data.login_timestamp.datetime).local().format('DD MMM YYYY HH:mm:ss ');
-                    }
-                    return '-';
+
+                    return labels.join('');
                 }},
                 {data: '_action'},
             ],
 
             columnDefs: [
                 {
-                    "targets": [4],
+                    "targets": [2],
                     "searchable": false,
                     "orderable": false,
                     "visible": true
