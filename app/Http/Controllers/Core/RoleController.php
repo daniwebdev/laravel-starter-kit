@@ -59,12 +59,12 @@ class RoleController extends Controller
 
     public function store(Request $req, Role $model)
     {
-
         try {
-            $model = Role::find($req->id);
 
             $model->name                = $req->name;
             $model->save();
+
+            $model->syncPermissions($req->actions);
 
             $status     = "success";
             $message    = "Berhasil disimpan.";
