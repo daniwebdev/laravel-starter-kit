@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ArticleCategory;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class ArticleCategoryController extends Controller
 {
 
-    protected $view  = 'article_categories';
+    protected $view  = 'article-category';
 
     function __construct()
     {
@@ -22,20 +23,12 @@ class ArticleCategoryController extends Controller
 
     public function index(ArticleCategory $model, Request $req) {
 
-        if($req->get('search') != '') {
-
-            $serach = strtolower($req->get('search'));
-
-            $model = $model->where(DB::raw('LOWER(name)'), "LIKE", "%$serach%");
-        }
-
-        $this->data['results'] = $model->paginate(10);
 
         return view($this->view.'.index', $this->data);
     }
 
     public function create() {
-        return view($this->view.'.form', $this->data);
+        return view($this->view.'.create', $this->data);
     }
 
     public function show() {
@@ -44,7 +37,7 @@ class ArticleCategoryController extends Controller
 
     public function edit(ArticleCategory $model, $id) {
         $this->data['data'] = $model->find($id);
-        return view($this->view.'.form', $this->data);
+        return view($this->view.'.edit', $this->data);
     }
 
 
@@ -52,31 +45,18 @@ class ArticleCategoryController extends Controller
     public function store(ArticleCategory $model, Request $req) {
 
         try {
-            DB::beginTransaction();
-            if(isset($req->id)) {
-                $model = ArticleCategory::find($req->id);
-            }
 
 			$model->name             = $req->name;
             $model->description      = $req->description;
-            // if($req->file('cover')) {
-            //     $upload                  = $this->upload($req->file('cover'));
-            // } else {
-            //     $upload['uuid']          = null;
-            // }
-			// $model->cover            = $upload['uuid'];
-
 
             $model->save();
 
             $status  = 'success';
             $message = "Save Successfully";
-            DB::commit();
         } catch (\Exception $er) {
             DB::rollBack();
             $status  = 'error';
             $message = $er->getMessage();
-            dd($message);
         }
 
         if($req->get('format') == 'json') {
@@ -90,10 +70,35 @@ class ArticleCategoryController extends Controller
         return redirect($this->base)->with('status', $status)->with('message', $message);
     }
 
+    public function update(Request $req, $id) {
 
-    public function update() {
+        try {
+            $model = ArticleCategory::find($id);
 
+			$model->name             = $req->name;
+            $model->description      = $req->description;
+
+            $model->save();
+
+            $status  = 'success';
+            $message = "Save Successfully";
+        } catch (\Exception $er) {
+            DB::rollBack();
+            $status  = 'error';
+            $message = $er->getMessage();
+        }
+
+        if($req->get('format') == 'json') {
+            $response = [
+                'status' => $status,
+                'message' => $message,
+            ];
+            return response()->json($response);
+        }
+
+        return redirect($this->base)->with('status', $status)->with('message', $message);
     }
+
 
     public function destroy(ArticleCategory $model, $id) {
 
@@ -110,6 +115,28 @@ class ArticleCategoryController extends Controller
         $output['message']  = $message;
 
         return response()->json($output);
+    }
+
+
+    function ajax(string $param)
+    {
+
+        switch ($param) {
+
+            case 'datatables':
+                $table = DataTables::eloquent(ArticleCategory::query());
+
+                $table->addColumn('_action', 'default.article-category.action');
+
+                $table->addColumn('_article_cout', function (ArticleCategory $data) {
+                    return $data->articles->count();
+                });
+
+                $table->rawColumns(['_action']);
+
+                return $table->toJson();
+                break;
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Core\ArticleCategoryController;
 use App\Http\Controllers\Core\ArticleController;
 use App\Http\Controllers\Core\RoleController;
 use App\Http\Controllers\Core\UserController;
@@ -48,5 +49,8 @@ Route::middleware('auth')->group(function() {
     /* Article Routes */
     Route::any('article/ajax/{param}', [ArticleController::class, 'ajax'])->name('role.ajax');
     Route::resource('article', ArticleController::class);
+    /* ArticleCategory Routes */
+    Route::any('article-category/ajax/{param}', [ArticleCategoryController::class, 'ajax'])->name('role.ajax');
+    Route::resource('article-category', ArticleCategoryController::class);
 
 });

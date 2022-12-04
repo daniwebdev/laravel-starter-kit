@@ -93,6 +93,34 @@ class RoleController extends Controller
         }
     }
 
+    public function update(Request $req, $id)
+    {
+        try {
+            $model = Role::find($id);
+
+            $model->name                = $req->name;
+            $model->save();
+
+            $model->syncPermissions($req->actions);
+
+            $status     = "success";
+            $message    = "Berhasil disimpan.";
+        } catch (\Exception $err) {
+            DB::rollBack();
+            $status     = "error";
+            $message    = $err->getMessage();
+        }
+
+        if ($req->json == 'true') {
+            return response()->json([
+                'status' => $status,
+                'message' => $message
+            ]);
+        } else {
+            return redirect(route('role.index'))->with('status', $status)->with('message', $message);
+        }
+    }
+
     public function destroy(Request $request, Role $model, $id)
     {
 

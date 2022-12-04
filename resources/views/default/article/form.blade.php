@@ -57,9 +57,8 @@
         <label for="">Image Cover</label>
         <input type="file" class="form-control">
 
-        <label for="" class="mt-3 ">Image Preview</label>
-        <div class="rounded" style="background: #eee; height: 130px; width: 100%;">
-
+        <div class="rounded d-flex align-items-center justify-content-center mt-2" style="background: #eee; height: 130px; width: 100%;">
+            <span style="font-weight: bold;">P R E V I E W</span>
         </div>
     </div>
 

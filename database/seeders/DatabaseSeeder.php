@@ -30,11 +30,36 @@ class DatabaseSeeder extends Seeder
             Permission::create(['name' => 'update user']),
             Permission::create(['name' => 'show user']),
             Permission::create(['name' => 'delete user']),
+
+            Permission::create(['name' => 'create role']),
+            Permission::create(['name' => 'update role']),
+            Permission::create(['name' => 'show role']),
+            Permission::create(['name' => 'delete role']),
+
+            Permission::create(['name' => 'create article']),
+            Permission::create(['name' => 'update article']),
+            Permission::create(['name' => 'show article']),
+            Permission::create(['name' => 'delete article']),
+
+            Permission::create(['name' => 'create article-category']),
+            Permission::create(['name' => 'update article-category']),
+            Permission::create(['name' => 'show article-category']),
+            Permission::create(['name' => 'delete article-category']),
         ];
 
-        $superadmin_role = Role::create(['name' => 'Super Admin']);
+        $root_role            = Role::create(['name' => 'Root']);
+        $superadmin_role      = Role::create(['name' => 'Super Admin']);
 
+        $root_role->syncPermissions($permissions);
         $superadmin_role->syncPermissions($permissions);
+
+        $root = User::create([
+            "name" => "Dani",
+            "email" => 'me@dani.work',
+            "email_verified_at" => now(),
+            "password" => bcrypt('password'),
+        ]);
+        $root->assignRole($root_role);
 
         $superadmin = User::create([
             "name" => "Super Admin",
@@ -42,7 +67,6 @@ class DatabaseSeeder extends Seeder
             "email_verified_at" => now(),
             "password" => bcrypt('password'),
         ]);
-
         $superadmin->assignRole($superadmin_role);
     }
 }

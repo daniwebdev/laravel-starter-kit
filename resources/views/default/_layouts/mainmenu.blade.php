@@ -43,7 +43,7 @@
         </a>
         <ul aria-expanded="false">
             <li><a href="/article">Article</a></li>
-            <li><a href="/article-category">Category</a></li>
+            <li><a href="{{ route('article-category.index') }}">Category</a></li>
         </ul>
     </li>
 

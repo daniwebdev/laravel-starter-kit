@@ -1,5 +1,5 @@
 @extends('default._layouts.main', [
-    'pageTitle' => 'User Manager'
+    'pageTitle' => 'Article Category'
 ])
 
 @section('content')
@@ -7,10 +7,10 @@
   <div class="col-12">
     <div class="card card-primary card-outline">
       <div class="card-header d-flex justify-cotent-between">
-        <h4 class="card-title">Role Manager</h4>
+        <h4 class="card-title">Article Category</h4>
 
         @can('create user')
-            <a href="{{route('role.create')}}" class="btn btn-primary btn-sm float-left">
+            <a href="{{route('article-category.create')}}" class="btn btn-primary btn-sm float-left">
                 <i class="fa fa-plus"></i> Add New
             </a>
         @endcan
@@ -22,7 +22,7 @@
                 <thead>
                     <tr>
                         <th class="bg-primary">Name</th>
-                        <th class="bg-primary">Permissions</th>
+                        <th class="bg-primary">Description</th>
                         <th class="bg-primary"></th>
                     </tr>
                 </thead>
@@ -58,50 +58,12 @@
 
             } ,
             ajax: {
-                url: '/role/ajax/datatables',
+                url: '/article-category/ajax/datatables',
             },
             "order": [[0, 'asc']],
             columns: [
                 {data: 'name'},
-                {data: '_permissions', render: (data) => {
-                    var labels = {};
-                    var output = '';
-
-                    for(let permission of data) {
-                        let module = permission.name.split(' ')[1];
-                        let action = permission.name.split(' ')[0];
-
-                        if(labels[module] == undefined) {
-                            labels[module] = [];
-                        }
-
-                        labels[module].push({
-                            action: action,
-                            name: permission.name
-                        });
-
-                        // labels.push(`<span class="badge badge-lg light badge-secondary me-2" >${permission.name}</span>`)
-                    }
-
-                    // return labels.join('');
-
-                    for(let mod in labels) {
-                        let act_items = '';
-                        for(let i of labels[mod]) {
-                            act_items += `<span class="badge badge-lg light badge-secondary me-2" >${i.action}</span>`;
-                        }
-
-                        output += `
-                            <div class="border rounded p-2 mb-1 border-primary overflow-auto">
-                                <span class="d-block">${mod}</span>
-                                ${act_items}
-                            </div>
-                        `;
-
-                    }
-
-                    return `${output}`;
-                }},
+                {data: 'description'},
                 {data: '_action'},
             ],
 
@@ -136,7 +98,7 @@
                 if(act.value) {
                     $.ajax({
                         method: "DELETE",
-                        url: `/role/${id}`,
+                        url: `/article-category/${id}`,
                         success: (res) => {
 
                             table.ajax.reload();
