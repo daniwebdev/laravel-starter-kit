@@ -6,7 +6,7 @@
     @endcan
 
     @can('delete role')
-    <button data-id="{{ $id }}" class="btn btn-danger">
+    <button data-id="{{ $id }}" class="btn btn-danger delete">
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
     @endcan

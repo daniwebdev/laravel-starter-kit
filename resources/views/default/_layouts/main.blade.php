@@ -23,6 +23,9 @@
 	<link href="/admin-panel/vendor/datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 	<!-- ----swiper-slider---- -->
 	<link rel="stylesheet" href="/admin-panel/vendor/swiper/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/admin-panel/vendor/sweetalert2/dist/sweetalert2.min.css">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     @stack('head')
 
@@ -1337,16 +1340,21 @@
     <script src="/admin-panel/vendor/global/global.min.js"></script>
 	<script src="/admin-panel/vendor/chart.js/Chart.bundle.min.js"></script>
 	<script src="/admin-panel/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-	<!-- Apex Chart -->
-	<script src="/admin-panel/vendor/apexchart/apexchart.js"></script>
-	<!-- Chart piety plugin files -->
-    <script src="/admin-panel/vendor/peity/jquery.peity.min.js"></script>
+
 	<script src="/admin-panel/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
 	<!-- ----swiper-slider---- -->
 	<script src="/admin-panel/vendor/swiper/js/swiper-bundle.min.js"></script>
 
+    <script src="/admin-panel/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
 
-    @stack('foot')
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
 
     <script src="/admin-panel/vendor/wow-master/dist/wow.min.js"></script>
     <script src="/admin-panel/vendor/bootstrap-select-country/js/bootstrap-select-country.min.js"></script>
@@ -1357,6 +1365,8 @@
     <script src="/admin-panel/js/custom.min.js"></script>
     <script src="/admin-panel/js/demo.js"></script>
     <script src="/admin-panel/js/styleSwitcher.js"></script>
+
+    @stack('foot')
 
 </body>
 </html>

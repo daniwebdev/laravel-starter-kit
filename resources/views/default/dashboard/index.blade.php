@@ -1,6 +1,10 @@
 @extends('default._layouts.main')
 
 @push('foot')
+<!-- Apex Chart -->
+<script src="/admin-panel/vendor/apexchart/apexchart.js"></script>
+<!-- Chart piety plugin files -->
+<script src="/admin-panel/vendor/peity/jquery.peity.min.js"></script>
 <!-- Dashboard 1 -->
 <script src="/admin-panel/js/dashboard/dashboard-1.js"></script>
 <script>

@@ -115,6 +115,33 @@
                 }
             }
         });
+
+
+
+        // delete
+        $(document).on('click', '.delete', function() {
+            let id = $(this).data('id');
+
+            swal.fire({
+                title: "Are you sure ?",
+                text: "Delete data permanently",
+                type: 'question',
+                showCancelButton: true,
+            }).then((act) => {
+
+                if(act.value) {
+                    $.ajax({
+                        method: "DELETE",
+                        url: `/user/${id}`,
+                        success: (res) => {
+
+                            table.ajax.reload();
+                        }
+                    });
+                }
+
+            })
+        })
     })
 
 </script>

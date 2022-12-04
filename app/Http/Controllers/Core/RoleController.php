@@ -34,8 +34,6 @@ class RoleController extends Controller
             return $item;
         })->groupBy('mod');
 
-        $roles = Role::all();
-
         $data = [
             'permissions' => $permissions,
             // 'roles' => $roles,
@@ -45,16 +43,27 @@ class RoleController extends Controller
     }
 
 
-    public function edit(Role $role, $UUID = '')
+    public function edit($id = '')
     {
-        $this->data['roles'] = $role->all();
 
-        $user = Role::where('uuid', '=', $UUID)->first();
+        $permissions = Permission::all()->map(function ($item) {
+            $var = explode(' ', $item->name);
+            $item->mod = ucwords(end($var));
 
-        $this->data['data'] = $user;
-        $this->data['role_names'] = $user->getRoleNames();
+            return $item;
+        })->groupBy('mod');
 
-        return view('default.user.edit',  $this->data);
+        $data = Role::find($id);
+
+        $this->data['data']       = $data;
+        $this->data['role_permission'] = $data->permissions->map(function($item) {
+            return $item->name;
+        })->toArray();
+
+
+        $this->data['permissions'] = $permissions;
+
+        return view('default.role.edit',  $this->data);
     }
 
     public function store(Request $req, Role $model)
@@ -80,25 +89,17 @@ class RoleController extends Controller
                 'message' => $message
             ]);
         } else {
-            return redirect(route('user.index'))->with('status', $status)->with('message', $message);
+            return redirect(route('role.index'))->with('status', $status)->with('message', $message);
         }
     }
 
-    public function detail(Role $model, Request $req, $UUID)
-    {
-
-        $this->data['invoice'] = $model->withTrashed()->where('uuid', $UUID)->first();
-
-        return view($this->view . '.detail', $this->data);
-    }
-
-    public function destroy(Request $req, Role $model, $UUID)
+    public function destroy(Request $request, Role $model, $id)
     {
 
         try {
-            $model->where('uuid', $UUID)->delete();
+            $model->where('id', $id)->delete();
             $status  = true;
-            $message = 'Berhasil dihapus.';
+            $message = 'Success..!';
         } catch (\Exception $err) {
             $status  = true;
             $message = $err->getMessage();

@@ -1,7 +1,7 @@
 
 <div class="mb-4">
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" class="form-control">
+    <input type="text" name="name" id="name" class="form-control" value="{{ $data->name ?? '' }}">
 </div>
 
 <label for="">Permissions</label>
@@ -19,7 +19,7 @@
                     @foreach ($items as $act)
                         <div>
                             <div class="form-check custom-checkbox check-xs">
-                                <input name="actions[]" type="checkbox" class="form-check-input" id="action_{{ md5($act['name']) }}" value="{{ $act['name'] }}">
+                                <input {{ isset($role_permission) && in_array($act['name'], $role_permission) ? 'checked':'' }} name="actions[]" type="checkbox" class="form-check-input" id="action_{{ md5($act['name']) }}" value="{{ $act['name'] }}">
                                 <label class="form-check-label" for="action_{{ md5($act['name']) }}">{{ ucwords($act['name']) }}</label>
                             </div>
                         </div>
