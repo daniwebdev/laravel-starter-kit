@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -34,8 +35,10 @@ class HomeController extends Controller
     }
 
     public function profile() {
+        $data = [
+            'user' => Auth::user(),
+        ];
 
-
-        return view('default.profile');
+        return view('default.profile', $data);
     }
 }

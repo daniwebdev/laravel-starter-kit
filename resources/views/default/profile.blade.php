@@ -1,4 +1,6 @@
-@extends('default._layouts.main')
+@extends('default._layouts.main', [
+    "pageTitle" => "Profile"
+])
 
 
 @section('content')
@@ -15,11 +17,13 @@
                         </div>
                         <div class="profile-details">
                             <div class="profile-name px-3 pt-2">
-                                <h4 class="text-primary mb-0">Mitchell C. Shay</h4>
-                                <p>UX / UI Designer</p>
+                                <h4 class="text-primary mb-0">{{ $user->name }}</h4>
+                                <p>
+                                    {{ $user->getRoleNames()->first() }}
+                                </p>
                             </div>
                             <div class="profile-email px-2 pt-2">
-                                <h4 class="text-muted mb-0">info@example.com</h4>
+                                <h4 class="text-muted mb-0">{{ $user->email }}</h4>
                                 <p>Email</p>
                             </div>
                             <div class="dropdown ms-auto">

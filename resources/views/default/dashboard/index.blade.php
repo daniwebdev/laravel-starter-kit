@@ -1,4 +1,6 @@
-@extends('default._layouts.main')
+@extends('default._layouts.main', [
+    'pageTitle' => "Dashboard"
+])
 
 @push('foot')
 <!-- Apex Chart -->
