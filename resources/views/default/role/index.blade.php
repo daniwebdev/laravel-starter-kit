@@ -18,18 +18,19 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-            <table id="table-content" class="table table-striped" style="width: 100%">
-                <thead>
-                    <tr>
-                        <th class="bg-primary">Name</th>
-                        <th class="bg-primary">Permissions</th>
-                        <th class="bg-primary"></th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                </tbody>
-            </table>
+                <table id="table-content" class="table table-striped table-responsive" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="bg-primary">Name</th>
+                            <th class="bg-primary">Permissions</th>
+                            <th class="bg-primary"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
       </div>
       <!-- /.card-body -->
       <div class="card-footer clearfix">
@@ -54,6 +55,7 @@
     $(function() {
         table = $('#table-content').DataTable({
             orderable: false,
+            responsive: true,
             createdRow: function ( row, data, index ) {
 
             } ,
@@ -88,13 +90,13 @@
                     for(let mod in labels) {
                         let act_items = '';
                         for(let i of labels[mod]) {
-                            act_items += `<span class="badge badge-lg light badge-secondary me-2" >${i.action}</span>`;
+                            act_items += `<span class="badge badge-lg light d-auto badge-secondary me-2 mb-2" >${i.action}</span>`;
                         }
 
                         output += `
-                            <div class="border rounded p-2 mb-1 border-primary overflow-auto">
+                            <div class="border rounded p-2 mb-1 border-primary" style="max-width: auto">
                                 <span class="d-block">${mod}</span>
-                                ${act_items}
+                                <div class="d-block" style="white-space: normal">${act_items}</div>
                             </div>
                         `;
 
