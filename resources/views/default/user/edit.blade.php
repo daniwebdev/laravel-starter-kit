@@ -8,8 +8,9 @@
         <h4 class="card-title">Update User</h4>
     </div>
     <div class="card-body">
-        <form id="form" action="{{ route('user.update', $data->id) }}" method="PUT" class="form-valide-with-icon needs-validation row" novalidate>
+        <form id="form" action="{{ route('user.update', $data->uuid) }}" method="POST" class="form-valide-with-icon needs-validation row" novalidate>
             @csrf
+            @method('PUT')
 
 
             @include('default.user.form')

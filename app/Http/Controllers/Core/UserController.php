@@ -97,7 +97,10 @@ class UserController extends Controller
                 $model->password            = Hash::make($req->password);
             }
 
+
             $model->save();
+
+            $model->assignRole(Role::find($req->role));
 
             DB::commit();
 
@@ -119,6 +122,36 @@ class UserController extends Controller
             return redirect(route('user.index'))->with('status', $status)->with('message', $message);
         }
 
+    }
+
+    public function update(User $model, Request $req, $uuid) {
+        try {
+            DB::beginTransaction();
+
+            $model              = $model->where('uuid', $uuid)->first();
+
+            $model->name        = $req->name;
+            $model->email       = $req->email;
+
+            if(isset($req->password)) {
+                $model->password            = Hash::make($req->password);
+            }
+
+            $model->save();
+
+            $model->syncRoles([Role::find($req->role)]);
+
+
+            DB::commit();
+
+            return to_route('user.index')->with('success', 'User created successfuly.');
+
+        } catch (\Throwable $th) {
+
+            DB::rollBack();
+
+            return back();
+        }
     }
 
     public function detail(User $model, Request $req, $UUID) {
