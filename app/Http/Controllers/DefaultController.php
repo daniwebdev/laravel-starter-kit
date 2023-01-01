@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class HomeController extends Controller
+class DefaultController extends Controller
 {
     /**
      * Create a new controller instance.

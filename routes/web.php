@@ -25,7 +25,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\DefaultController::class, 'index'])->name('home');
 
 
 
@@ -34,9 +34,9 @@ Route::middleware('auth')->group(function() {
     Route::get('/logout', [LoginController::class, 'logout']);
 
     /* General */
-    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
-    Route::post('/profile/upload_image', [App\Http\Controllers\HomeController::class, 'upload_profile_image'])->name('profile.upload_image');
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [App\Http\Controllers\DefaultController::class, 'profile'])->name('profile');
+    Route::post('/profile/upload_image', [App\Http\Controllers\DefaultController::class, 'upload_profile_image'])->name('profile.upload_image');
+    Route::get('/dashboard', [App\Http\Controllers\DefaultController::class, 'dashboard'])->name('dashboard');
 
 
     /* User Management */
