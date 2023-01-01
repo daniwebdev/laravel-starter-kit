@@ -54,6 +54,8 @@ class DefaultController extends Controller
 
             $file = $request->file('file');
 
+            dd($file);
+
             $filename = auth()->user()->uuid.'';
 
             $file->move(public_path(''));

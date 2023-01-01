@@ -483,11 +483,19 @@
 
                 console.log(objectUrl);
 
-                $('.photo-image').attr(`style`, `position: relative; background: url(${objectUrl}); background-position: center; background-size: cover; width: 80px; height: 80px; overflow:hidden`)
+                (async function() {
+                    await process_upload(file);
+                    $('.photo-image').attr(`style`, `position: relative; background: url(${objectUrl}); background-position: center; background-size: cover; width: 80px; height: 80px; overflow:hidden`)
+                })()
+
             })
 
-            function process_upload() {
+            async function process_upload(file) {
+                let formData = new FormData();
 
+                formData.append('file', file);
+
+                await axios.post('/profile/upload_image', formData);
             }
         })
     </script>
