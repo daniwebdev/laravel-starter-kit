@@ -27,6 +27,11 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        axios.defaults.headers.post['_token'] = "{{  csrf_token() }}";
+    </script>
     @stack('head')
 
 	<!-- Style css -->
@@ -795,11 +800,11 @@
 										<div class="header-info2 d-flex align-items-center">
 											<div class="d-flex align-items-center sidebar-info">
 												<div>
-													<h4 class="mb-0">Nella Vita</h4>
+													<h4 class="mb-0">{{ auth()->user()->name }}</h4>
 													<span class="d-block text-end">Admin</span>
 												</div>
 											</div>
-											<img src="/admin-panel/images/user.jpg" alt="">
+											<img src="{{ auth()->user()->image ? disk_get_url(auth()->user()->image):'https://via.placeholder.com/100x100' }}" alt="">
 										</div>
 									</a>
 									<div class="dropdown-menu dropdown-menu-end" style="">

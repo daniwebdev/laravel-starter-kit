@@ -14,7 +14,7 @@
                     <div class="profile-info">
                         <div class="profile-photo">
 
-                            <div style="position: relative; background: url(/admin-panel/images/profile/profile.png); background-position: center; background-size: cover; width: 80px; height: 80px; overflow:hidden" class="rounded-circle photo-image">
+                            <div style="position: relative; background: url({{ auth()->user()->image ? disk_get_url(auth()->user()->image):'https://via.placeholder.com/100x100' }}); background-position: center; background-size: cover; width: 80px; height: 80px; overflow:hidden" class="rounded-circle photo-image">
                                 <button style="background: rgba(0,0,0,0.4); border:0; width: 100%; bottom: 0; position: absolute;" class="text-center text-white py-1" id="change-image">
                                     <i class="fa fa-camera" aria-hidden="true"></i>
                                 </button>

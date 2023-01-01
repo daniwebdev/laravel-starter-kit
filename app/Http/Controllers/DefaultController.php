@@ -54,15 +54,35 @@ class DefaultController extends Controller
 
             $file = $request->file('file');
 
-            dd($file);
+            // dd($file->getClientOriginalExtension(), $file->getRealPath());
+            // dd($file->getExtension());
 
-            $filename = auth()->user()->uuid.'';
+            if($file->getClientOriginalExtension() != 'webp') {
 
-            $file->move(public_path(''));
+                $content = file_get_contents(convert2webp($file->getRealPath()));
+            } else {
+                $content = file_get_contents($file->getRealPath());
+            }
+
+
+            $filename    = auth()->user()->uuid.'.webp';
+            $destination = 'images/profile/'.$filename;
+
+            disk()->put($destination, $content);
+
+            $saved_as = 'gcs:' . $destination;
+
+            $user = auth()->user();
+
+            $user->image = $saved_as;
+
+            $user->save();
+
+            return disk_get_url($saved_as);
 
 
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 }
