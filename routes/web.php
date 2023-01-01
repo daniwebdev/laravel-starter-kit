@@ -34,7 +34,8 @@ Route::middleware('auth')->group(function() {
     Route::get('/logout', [LoginController::class, 'logout']);
 
     /* General */
-    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('dashboard');
+    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+    Route::post('/profile/upload_image', [App\Http\Controllers\HomeController::class, 'upload_profile_image'])->name('profile.upload_image');
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
 
 

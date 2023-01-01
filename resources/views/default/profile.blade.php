@@ -13,7 +13,15 @@
                     </div>
                     <div class="profile-info">
                         <div class="profile-photo">
-                            <img src="/admin-panel/images/profile/profile.png" class="img-fluid rounded-circle" alt="">
+
+                            <div style="position: relative; background: url(/admin-panel/images/profile/profile.png); background-position: center; background-size: cover; width: 80px; height: 80px; overflow:hidden" class="rounded-circle photo-image">
+                                <button style="background: rgba(0,0,0,0.4); border:0; width: 100%; bottom: 0; position: absolute;" class="text-center text-white py-1" id="change-image">
+                                    <i class="fa fa-camera" aria-hidden="true"></i>
+                                </button>
+
+                                <input style="display: none" type="file" id="input-upload-image">
+                            </div>
+
                         </div>
                         <div class="profile-details">
                             <div class="profile-name px-3 pt-2">
@@ -22,10 +30,12 @@
                                     {{ $user->getRoleNames()->first() }}
                                 </p>
                             </div>
+
                             <div class="profile-email px-2 pt-2">
                                 <h4 class="text-muted mb-0">{{ $user->email }}</h4>
                                 <p>Email</p>
                             </div>
+
                             <div class="dropdown ms-auto">
                                 <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="12" cy="5" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="19" r="2"></circle></g></svg>
@@ -444,3 +454,41 @@
         </div>
     </div>
 @endsection
+
+
+@push('head')
+    <style>
+    </style>
+@endpush
+
+@push('foot')
+    <script>
+        $(function() {
+            $('#change-image').on('click', function() {
+                $('#input-upload-image').trigger('click');
+            });
+
+            $('#input-upload-image').on('change', function() {
+                let file = $(this)[0].files[0];
+
+                if(file.type.indexOf('image/') == -1) {
+                    $('#input-upload-image').val('')
+
+                    alert("Format tidak didukung..!")
+
+                    return;
+                }
+
+                let objectUrl = URL.createObjectURL(file);
+
+                console.log(objectUrl);
+
+                $('.photo-image').attr(`style`, `position: relative; background: url(${objectUrl}); background-position: center; background-size: cover; width: 80px; height: 80px; overflow:hidden`)
+            })
+
+            function process_upload() {
+
+            }
+        })
+    </script>
+@endpush

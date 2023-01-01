@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -39,6 +40,27 @@ class HomeController extends Controller
             'user' => Auth::user(),
         ];
 
+        // $disk = Storage::disk('gcs');
+        // $disk->put('test.txt', 'oke');
+
+        // $url = $disk->temporaryUrl('test.txt', now()->addMinutes(30));
+
         return view('default.profile', $data);
+    }
+
+    public function upload_profile_image(Request $request) {
+
+        try {
+
+            $file = $request->file('file');
+
+            $filename = auth()->user()->uuid.'';
+
+            $file->move(public_path(''));
+
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }
