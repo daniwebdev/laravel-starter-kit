@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
 
-        <form id="form" action="{{ route('role.store') }}" method="POST" class="form-valide-with-icon needs-validation row" novalidate>
+        <form id="form" action="{{ route('article.store') }}" method="POST" class="form-valide-with-icon needs-validation row" novalidate>
             @csrf
 
             @include('default.article.form')

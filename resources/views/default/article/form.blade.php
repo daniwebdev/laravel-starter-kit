@@ -2,9 +2,12 @@
 
     <div class="mb-3">
         <label for="title">Title</label>
-        <input type="text" class="form-control" placeholder="Title">
+        <input type="text" class="form-control" placeholder="Title" id="title">
 
-        <small>Permalink : /<span id="permalink-text"></span></small>
+        <small>
+            Permalink :
+            <span id="permalink-text"></span>
+        </small>
     </div>
 
     <div class="mb-3">
@@ -20,7 +23,7 @@
         <select selectpicker class="form-control" name="category" id="category">
             <option value="">- Select Category -</option>
             @foreach ($categories as $item)
-            <option value="{{ $item->name }}">{{ $item->name }}</option>
+            <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
         </select>
     </div>
@@ -30,7 +33,7 @@
         <div class="row g-3">
             <div class="col-7">
                 <div class="input-group">
-                    <input type="text" datepicker class="form-control" name="published_at">
+                    <input type="text" datepicker class="form-control" name="published_date">
                     <span class="input-group-text"><i class="far fa-calendar"></i></span>
                 </div>
             </div>
@@ -39,7 +42,7 @@
 
                 <div class="input-group clockpicker col-md-4" data-placement="bottom" data-align="top"
                     data-autobtn-close="true">
-                    <input type="text" class="form-control" value="13:14">
+                    <input type="text" class="form-control" value="{{ date('H:i') }}" name="published_time">
                     <span class="input-group-text"><i class="far fa-clock"></i></span>
                 </div>
 
@@ -49,8 +52,7 @@
 
     <div class="mt-3">
         <label for="">Description</label>
-        <textarea name="description" class="form-control" id="description" rows="3"
-            placeholder="Description"></textarea>
+        <textarea name="description" class="form-control" id="description" rows="3" placeholder="Description"></textarea>
     </div>
 
     <div class="mt-3">
@@ -72,6 +74,20 @@
 <script src="/admin-panel/vendor/clockpicker/js/bootstrap-clockpicker.min.js"></script>
 <!-- Initialize Quill editor -->
 <script>
+    function slugify(string) {
+    const a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;'
+    const b = 'aaaaaaaaaacccddeeeeeeeegghiiiiiilmnnnnooooooooprrsssssttuuuuuuuuuwxyyzzz------'
+    const p = new RegExp(a.split('').join('|'), 'g')
+
+    return string.toString().toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+        .replace(/&/g, '-and-') // Replace & with 'and'
+        .replace(/[^\w-]+/g, '') // Remove all non-word characters
+        .replace(/--+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+        .replace(/-+$/, '') // Trim - from end of text
+    }
     var quill = new Quill('#content', {
       theme: 'snow',
       modules: {
@@ -86,6 +102,14 @@
 
     $('[datepicker]').datepicker();
     $('.clockpicker').clockpicker()
+
+    $(function() {
+        $('#title').on('keyup', function() {
+            let slug = slugify($(this).val());
+
+            $('#permalink-text').text('/' + slug)
+        })
+    })
 </script>
 @endpush
 

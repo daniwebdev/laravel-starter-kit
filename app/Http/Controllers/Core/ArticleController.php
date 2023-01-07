@@ -14,12 +14,11 @@ class ArticleController extends Controller
 
     protected $view  = 'article';
 
+    private $data = [];
+
     function __construct()
     {
         parent::__construct();
-        $this->base             = route($this->view . '.index');
-        $this->data['resource'] = $this->view;
-        $this->view             = $this->template . $this->view;
     }
 
     public function index(Article $model, Request $req)
@@ -49,6 +48,8 @@ class ArticleController extends Controller
 
     public function store(Article $model, Request $req)
     {
+
+        dd($req->all());
 
         try {
             DB::beginTransaction();
@@ -96,7 +97,7 @@ class ArticleController extends Controller
             return response()->json($response);
         }
 
-        return redirect($this->base)->with('status', $status)->with('message', $message);
+        return redirect('article.index')->with('status', $status)->with('message', $message);
     }
 
 
