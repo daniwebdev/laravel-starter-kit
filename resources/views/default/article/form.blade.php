@@ -1,26 +1,30 @@
 <div class="col-md-8">
 
     <div class="mb-3">
-        <label for="title">Title</label>
-        <input type="text" class="form-control" placeholder="Title" id="title">
+        <label for="title">Title <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" placeholder="Title" name="title" id="title" required>
 
-        <small>
+        <span class="error-message text-danger"></span>
+
+        <small class="d-block">
             Permalink :
             <span id="permalink-text"></span>
         </small>
     </div>
 
     <div class="mb-3">
-        <label for="title">Content</label>
-        <div id="content" type="text" name="content" placeholder="Write the content"></div>
+        <label for="title">Content <span class="text-danger">*</span></label>
+        <div id="content-area" type="text" placeholder="Write the content"></div>
+        <textarea name="content" style="display:none" id=""></textarea>
+
     </div>
 
 </div>
 <div class="col-md-4">
 
     <div>
-        <label for="">Category</label>
-        <select selectpicker class="form-control" name="category" id="category">
+        <label for="">Category <span class="text-danger">*</span></label>
+        <select selectpicker class="form-control" name="category" id="category" required>
             <option value="">- Select Category -</option>
             @foreach ($categories as $item)
             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -51,12 +55,12 @@
     </div>
 
     <div class="mt-3">
-        <label for="">Description</label>
-        <textarea name="description" class="form-control" id="description" rows="3" placeholder="Description"></textarea>
+        <label for="">Description <span class="text-danger">*</span></label>
+        <textarea required name="description" class="form-control" id="description" rows="3" placeholder="Description"></textarea>
     </div>
 
     <div class="mt-3">
-        <label for="">Image Cover</label>
+        <label for="">Image Cover <span class="text-danger">*</span></label>
         <input type="file" class="form-control">
 
         <div class="rounded d-flex align-items-center justify-content-center mt-2" style="background: #eee; height: 130px; width: 100%;">
@@ -88,7 +92,7 @@
         .replace(/^-+/, '') // Trim - from start of text
         .replace(/-+$/, '') // Trim - from end of text
     }
-    var quill = new Quill('#content', {
+    var quill = new Quill('#content-area', {
       theme: 'snow',
       modules: {
             toolbar: [
@@ -104,11 +108,12 @@
     $('.clockpicker').clockpicker()
 
     $(function() {
+        // ON INIT
         $('#title').on('keyup', function() {
             let slug = slugify($(this).val());
-
             $('#permalink-text').text('/' + slug)
-        })
+        });
+
     })
 </script>
 @endpush

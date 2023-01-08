@@ -12,7 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 class ArticleController extends Controller
 {
 
-    protected $view  = 'article';
+    protected $view  = 'default.article';
 
     private $data = [];
 
